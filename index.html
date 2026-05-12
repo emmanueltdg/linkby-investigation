@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Linkby — Investigation Report</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a18;
+    --paper: #f7f4ee;
+    --accent: #c0392b;
+    --accent-light: #e8d5d3;
+    --rule: #ccc8bb;
+    --muted: #6b6860;
+    --highlight: #fffbe6;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.75;
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 60px 40px 100px;
+  }
+
+  /* Header */
+  .report-header {
+    border-top: 4px solid var(--ink);
+    border-bottom: 1px solid var(--rule);
+    padding: 28px 0 20px;
+    margin-bottom: 40px;
+  }
+
+  .report-label {
+    font-family: 'Source Serif 4', serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2.6rem;
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+
+  .report-meta {
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+
+  /* Sections */
+  section {
+    margin-bottom: 42px;
+    padding-bottom: 42px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  section:last-of-type { border-bottom: none; }
+
+  h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  h2::before {
+    content: '';
+    display: inline-block;
+    width: 18px;
+    height: 3px;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  p { margin-bottom: 14px; }
+  p:last-child { margin-bottom: 0; }
+
+  /* Superscript references */
+  sup a {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.68em;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+    background: var(--accent-light);
+    padding: 1px 4px;
+    border-radius: 3px;
+    margin-left: 1px;
+    transition: background 0.15s, color 0.15s;
+    vertical-align: super;
+    line-height: 0;
+  }
+
+  sup a:hover {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  /* Callout box */
+  .callout {
+    background: var(--highlight);
+    border-left: 3px solid var(--accent);
+    padding: 16px 20px;
+    margin: 20px 0;
+    font-size: 0.95rem;
+    color: var(--ink);
+    font-style: italic;
+  }
+
+  /* Risk table */
+  .risk-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.93rem;
+    margin-top: 16px;
+  }
+
+  .risk-table th {
+    background: var(--ink);
+    color: var(--paper);
+    text-align: left;
+    padding: 10px 14px;
+    font-family: 'Source Serif 4', serif;
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .risk-table td {
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+
+  .risk-table tr:nth-child(even) td { background: rgba(0,0,0,0.025); }
+
+  .risk-table td:first-child {
+    font-weight: 600;
+    white-space: nowrap;
+    color: var(--accent);
+    width: 28%;
+  }
+
+  /* Pricing grid */
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 16px;
+  }
+
+  .pricing-card {
+    background: white;
+    border: 1px solid var(--rule);
+    padding: 16px 18px;
+  }
+
+  .pricing-card .label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+
+  .pricing-card .value {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--ink);
+    font-weight: 700;
+  }
+
+  .pricing-card .note {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* Verdict box */
+  .verdict {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 28px 32px;
+    margin-top: 40px;
+  }
+
+  .verdict h2 {
+    color: var(--paper);
+    font-size: 1.2rem;
+    margin-bottom: 14px;
+  }
+
+  .verdict h2::before { background: var(--accent); }
+
+  .verdict p { color: #e8e4da; font-size: 0.96rem; }
+
+  .verdict sup a {
+    background: rgba(192,57,43,0.35);
+    color: #ffb3ae;
+  }
+
+  .verdict sup a:hover {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  /* References */
+  .references {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 2px solid var(--ink);
+  }
+
+  .references h3 {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 18px;
+  }
+
+  .ref-list { list-style: none; }
+
+  .ref-list li {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 10px;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+
+  .ref-num {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    color: var(--accent);
+    min-width: 22px;
+    flex-shrink: 0;
+  }
+
+  .ref-list a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    word-break: break-all;
+  }
+
+  .ref-list a:hover { color: var(--accent); }
+
+  /* Smooth scroll */
+  html { scroll-behavior: smooth; }
+
+  /* Highlight target reference on jump */
+  .ref-list li:target {
+    background: var(--highlight);
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+    border-radius: 2px;
+  }
+
+  @media (max-width: 600px) {
+    body { padding: 32px 20px 60px; }
+    h1 { font-size: 1.9rem; }
+    .pricing-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="report-header">
+  <div class="report-label">Platform Investigation</div>
+  <h1>Linkby</h1>
+  <div class="report-meta">Prepared for Liam &nbsp;·&nbsp; May 2026 &nbsp;·&nbsp; Performance Adtech</div>
+</header>
+
+<!-- WHAT IT IS -->
+<section>
+  <h2>What It Is</h2>
+  <p>Linkby is an Australian-founded (2020) performance-based adtech platform that sits between traditional PR and digital advertising. It lets brands pitch directly to over 600 premium publishers and pay only when readers engage, using cost-per-click (CPC) or CPM pricing.<sup><a href="#ref-1" id="cite-1a">[1]</a></sup> The core pitch: get editorial-style media coverage without upfront costs or retainers.</p>
+  <p>The founders — Chris Wirasinha, Adrian Fagerlund, and Andrew Chak — built Linkby after co-founding Pedestrian.tv, Australia's biggest youth publishing platform, giving them direct insight into both sides of the brand-publisher relationship.<sup><a href="#ref-2" id="cite-2a">[2]</a></sup></p>
+</section>
+
+<!-- BUSINESS HEALTH -->
+<section>
+  <h2>Business Health &amp; Traction</h2>
+  <p>The company is well-funded and growing fast. Linkby raised $15M in Series B funding in July 2025, led by Boston-based Volition Capital, to support U.S. expansion and continued product development.<sup><a href="#ref-1" id="cite-1b">[1]</a></sup> Total funding across all rounds now sits at approximately $26M.<sup><a href="#ref-3" id="cite-3a">[3]</a></sup></p>
+  <p>The U.S. is now Linkby's largest market, accounting for 55% of revenue, with some months seeing 100% growth year-over-year.<sup><a href="#ref-4" id="cite-4a">[4]</a></sup> The brand roster is credible: more than 3,800 consumer brands use the platform, including Charlotte Tilbury, Beyond Meat, Skechers, Free People, T-Mobile, and Lululemon.<sup><a href="#ref-1" id="cite-1c">[1]</a></sup></p>
+  <div class="callout">
+    "Linkby is building a performance-driven solution for brands to scale through trusted editorial. By bringing accountability and efficiency to a traditionally high-cost, opaque part of the media mix, Linkby has unlocked a new channel for customer acquisition." — Jim Ferry, Partner, Volition Capital<sup><a href="#ref-1" id="cite-1d">[1]</a></sup>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section>
+  <h2>How the Pricing Actually Works</h2>
+  <p>Based on Linkby's own published information, the model works as follows:</p>
+
+  <div class="pricing-grid">
+    <div class="pricing-card">
+      <div class="label">Recommended CPC</div>
+      <div class="value">$2.00</div>
+      <div class="note">Platform minimum is $1.00 per click</div>
+    </div>
+    <div class="pricing-card">
+      <div class="label">Publisher Min. Budget</div>
+      <div class="value">$2,500–$10K</div>
+      <div class="note">Max they can earn per campaign</div>
+    </div>
+    <div class="pricing-card">
+      <div class="label">Sign-up / Retainer</div>
+      <div class="value">$0</div>
+      <div class="note">No subscriptions or onboarding fees</div>
+    </div>
+    <div class="pricing-card">
+      <div class="label">Campaign Go-Live</div>
+      <div class="value">48–72 hrs</div>
+      <div class="note">Once a publisher opts in</div>
+    </div>
+  </div>
+
+  <p style="margin-top:18px;">You can split larger budgets across multiple publishers (e.g. $10,000 across two titles at $5,000 each). Setting a higher CPC incentivises more publishers to accept your campaign brief. There's also a CPM product called <strong>Pubfeed</strong> for infinite-scroll placements across publisher sites.<sup><a href="#ref-5" id="cite-5a">[5]</a></sup></p>
+  <p>The minimum allocated budget per publisher is the key number to watch — even at $1/click, getting a publisher on board effectively means committing up to $2,500–$10,000 if they fully deliver. That's not nothing.</p>
+</section>
+
+<!-- PUBLISHERS -->
+<section>
+  <h2>Publisher Network</h2>
+  <p>Linkby performs best when content is shared across owned and operated publisher channels like newsletters and homepage placements. Standout performers in the network include Morning Brew, The Skimm, The Daily Aus, and creator-led Substacks.<sup><a href="#ref-4" id="cite-4b">[4]</a></sup> These are legitimate, high-quality outlets — not content farms.</p>
+  <p>A new "reverse pitching" feature now allows interested publishers to pitch directly to brands, rather than solely the other way around.<sup><a href="#ref-6" id="cite-6a">[6]</a></sup> Publisher opt-in is not guaranteed — brands in niche or less commercially attractive categories may receive fewer takers.</p>
+</section>
+
+<!-- SENTIMENT -->
+<section>
+  <h2>Sentiment &amp; Reviews</h2>
+
+  <p><strong>Trustpilot: 4.1/5 (27 reviews).</strong> The majority of reviews are five-star, dominated by long-term users citing 3–4 years of partnership. Multiple brands report strong ROI — one cited campaigns achieving up to 3x ROAS,<sup><a href="#ref-7" id="cite-7a">[7]</a></sup> and another reported a 56% sales uplift with a key retail partner.<sup><a href="#ref-8" id="cite-8a">[8]</a></sup> The breakdown is notably polarised: <strong>70% five-star, 19% one-star</strong>, with almost nothing in between — a flag worth noting.</p>
+
+  <p><strong>The main negative complaint:</strong> One reviewer alleged that Linkby publishers use click farms, generating clicks that don't appear in the brand's own traffic analytics, and reported that customer service was unresponsive — only engaging when trying to sell another campaign.<sup><a href="#ref-7" id="cite-7b">[7]</a></sup> Linkby replied publicly and said they were investigating once the user provided data.</p>
+
+  <p><strong>G2:</strong> One reviewer noted "no publications picked up our story, despite following the Linkby guidelines,"<sup><a href="#ref-9" id="cite-9a">[9]</a></sup> confirming that publisher participation is not guaranteed — a real risk if your category is niche.</p>
+
+  <p><strong>Glassdoor (employee reviews): 3.6/5</strong> — 51% would recommend to a friend; senior management scores only 2.6/5.<sup><a href="#ref-10" id="cite-10a">[10]</a></sup> One review warned of high stress and burnout in sales roles, while others cited good culture and flexibility.</p>
+</section>
+
+<!-- RISKS -->
+<section>
+  <h2>Key Risks to Flag</h2>
+  <table class="risk-table">
+    <thead>
+      <tr>
+        <th>Risk</th>
+        <th>Detail</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Click quality</td>
+        <td>The click farm allegation<sup><a href="#ref-7" id="cite-7c">[7]</a></sup> is the most serious concern. Their fraud protection is proprietary and unverified externally. Recommend independent UTM tracking before scaling.</td>
+      </tr>
+      <tr>
+        <td>Publisher opt-in not guaranteed</td>
+        <td>Publishers choose whether to accept your brief.<sup><a href="#ref-9" id="cite-9b">[9]</a></sup> Niche or low-commercial-appeal brands may get limited takers.</td>
+      </tr>
+      <tr>
+        <td>Upper-funnel by nature</td>
+        <td>One agency reviewer noted explicitly: "the activity is still very upper funnel."<sup><a href="#ref-7" id="cite-7d">[7]</a></sup> Not a direct-response channel.</td>
+      </tr>
+      <tr>
+        <td>Analytics discrepancy</td>
+        <td>Some users report clicks not appearing in their own analytics, creating attribution confusion and disputes.</td>
+      </tr>
+      <tr>
+        <td>Minimum budgets add up</td>
+        <td>At $2,500–$10,000 per publisher minimum, multi-publisher campaigns can get expensive despite the "pay per click" framing.</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- OPPORTUNITY -->
+<section>
+  <h2>The Opportunity</h2>
+  <p>Linkby occupies a genuine gap. As SEO-based strategies that relied on traditional affiliate models struggle, owned and operated publisher channels are growing.<sup><a href="#ref-4" id="cite-4c">[4]</a></sup> The platform is also positioning itself around the emerging GEO (Generative Engine Optimisation) trend — as discoverability by LLMs like ChatGPT increasingly favours premium publishers, brands are looking to diversify spend toward performance-based editorial models.<sup><a href="#ref-1" id="cite-1e">[1]</a></sup></p>
+  <p>For a brand wanting editorial presence in publications like Vogue, Marie Claire, or Wired without a PR retainer, the concept has real merit — particularly for product launches and seasonal campaigns (Black Friday, Mother's Day, etc.).<sup><a href="#ref-7" id="cite-7e">[7]</a></sup></p>
+</section>
+
+<!-- VERDICT -->
+<div class="verdict">
+  <h2>Bottom Line for Liam</h2>
+  <p>Linkby is a <strong>legitimate, well-funded platform</strong> with genuine traction and recognisable brand clients. It's best suited for D2C/e-commerce brands focused on awareness and traffic, not direct conversion. The performance model is genuinely lower-risk than traditional PR retainers,<sup><a href="#ref-7" id="cite-7f">[7]</a></sup> but the polarised reviews — particularly the click quality complaints — warrant <strong>requesting a pilot with a small publisher and tight budget first</strong> before scaling spend.</p>
+  <p>Set up UTM tracking carefully before launch to independently verify click quality against what Linkby's dashboard reports. If numbers reconcile, scale with confidence.</p>
+</div>
+
+<!-- REFERENCES -->
+<div class="references">
+  <h3>References</h3>
+  <ol class="ref-list">
+    <li id="ref-1">
+      <span class="ref-num">[1]</span>
+      <span>Volition Capital / EINPresswire — <em>Linkby Raises $15 Million For Performance PR</em> (July 2025). <a href="https://www.volitioncapital.com/news/linkby-15-million-series-b/" target="_blank" rel="noopener">volitioncapital.com/news/linkby-15-million-series-b/</a></span>
+    </li>
+    <li id="ref-2">
+      <span class="ref-num">[2]</span>
+      <span>TRUiC / Startup Savant — <em>Startup Stories: Adtech Startup Linkby</em> (Oct 2024). <a href="https://startupsavant.com/startup-center/linkby/origin-story" target="_blank" rel="noopener">startupsavant.com/startup-center/linkby/origin-story</a></span>
+    </li>
+    <li id="ref-3">
+      <span class="ref-num">[3]</span>
+      <span>Startup Intros — <em>LinkBy: Funding, Team &amp; Investors</em>. <a href="https://startupintros.com/orgs/linkby" target="_blank" rel="noopener">startupintros.com/orgs/linkby</a></span>
+    </li>
+    <li id="ref-4">
+      <span class="ref-num">[4]</span>
+      <span>SmartCompany — <em>Linkby lands $23 million as brands shift from SEO to AI discovery</em> (July 2025). <a href="https://www.smartcompany.com.au/startupsmart/linkby-raise-23-million-ai-performance-pr-us-expansion/" target="_blank" rel="noopener">smartcompany.com.au/startupsmart/linkby-raise-23-million-ai-performance-pr-us-expansion/</a></span>
+    </li>
+    <li id="ref-5">
+      <span class="ref-num">[5]</span>
+      <span>Startup Daily — <em>Adtech startup Linkby banks $4 million Series A</em> (June 2024). <a href="https://www.startupdaily.net/topic/funding/adtech-startup-linkby-banks-4-million-series-a/" target="_blank" rel="noopener">startupdaily.net/topic/funding/adtech-startup-linkby-banks-4-million-series-a/</a></span>
+    </li>
+    <li id="ref-6">
+      <span class="ref-num">[6]</span>
+      <span>Rakuten Advertising Blog — <em>Publisher Spotlight: Linkby</em> (Nov 2024). <a href="https://blog.rakutenadvertising.com/insights/publisher-spotlight-linkby/" target="_blank" rel="noopener">blog.rakutenadvertising.com/insights/publisher-spotlight-linkby/</a></span>
+    </li>
+    <li id="ref-7">
+      <span class="ref-num">[7]</span>
+      <span>Trustpilot — <em>Linkby Reviews</em> (multiple dates, retrieved May 2026). <a href="https://www.trustpilot.com/review/linkby.com" target="_blank" rel="noopener">trustpilot.com/review/linkby.com</a></span>
+    </li>
+    <li id="ref-8">
+      <span class="ref-num">[8]</span>
+      <span>Linkby.com — <em>Brand testimonials &amp; case studies</em>. <a href="https://linkby.com/" target="_blank" rel="noopener">linkby.com</a></span>
+    </li>
+    <li id="ref-9">
+      <span class="ref-num">[9]</span>
+      <span>G2 — <em>Linkby Reviews 2025: Details, Pricing &amp; Features</em>. <a href="https://www.g2.com/products/linkby/reviews" target="_blank" rel="noopener">g2.com/products/linkby/reviews</a></span>
+    </li>
+    <li id="ref-10">
+      <span class="ref-num">[10]</span>
+      <span>Glassdoor — <em>Linkby Employee Reviews</em>. <a href="https://www.glassdoor.com/Reviews/Linkby-Reviews-E7869753.htm" target="_blank" rel="noopener">glassdoor.com/Reviews/Linkby-Reviews-E7869753.htm</a></span>
+    </li>
+  </ol>
+</div>
+
+</body>
+</html>
